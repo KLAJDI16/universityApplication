@@ -12,5 +12,11 @@ export class ApiService {
     // Assuming your authentication endpoint is 'your-authentication-endpoint'
     return this.httpClient.post('your-authentication-endpoint', data);
   }
+
+  register(data: any): Observable<any> {
+    // Assuming your registration endpoint is 'your-registration-endpoint'
+    return this.httpClient.post('your-registration-endpoint', data);
+  }
 }
+
 
