@@ -25,9 +25,7 @@ export class SignUpComponent  {
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar, public apiService: ApiService ) {
 
     this.signupForm = this.fb.group({
-      fullName: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{};:,<.>]).{8,}$/)]],
       confirmPassword: ['', Validators.required],
     });
@@ -49,9 +47,9 @@ export class SignUpComponent  {
   }
 
   register() {
-    //fullName,
-    const { username, email, password } = this.signupForm.value;
-    const data = { username, email, password };
+   
+    const { username, password } = this.signupForm.value;
+    const data = { username,password };
 
     this.apiService.register(data).subscribe((response:any)  => {
       console.log('Registration response:', response);

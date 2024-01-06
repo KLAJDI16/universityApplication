@@ -1,1 +1,14 @@
-<p>feedback works!</p>
+<div class="feedback-container">
+    <form [formGroup]="feedbackForm">
+      <!-- Shiko se mund te jete gabim pjesa get(rating) -->
+      <ngb-rating [max]="5" (click)="GetRating()" [formControl]="feedbackForm.get('rating')"></ngb-rating>
+  
+      <div class="form-group">
+        <label for="description">Add your description:</label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+  
+      <button type="button" (click)="submitFeedback()">Submit Feedback</button>
+    </form>
+  </div>
+  

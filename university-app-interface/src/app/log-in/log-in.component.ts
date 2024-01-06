@@ -42,7 +42,7 @@ export class LogInComponent {
     console.log(this.loginForm.value);
   }
   login() {
-    //fullName,
+    
     const { username, password } = this.loginForm.value;
     const data = { username, password };
 

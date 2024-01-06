@@ -6,17 +6,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  private baseUrl = 'http://localhost:8080';
+
+  constructor(private http: HttpClient) {}
+
 
   authenticate(data: any): Observable<any> {
-    // Assuming your authentication endpoint is 'your-authentication-endpoint'
-    return this.httpClient.post('your-authentication-endpoint', data);
+    const url = `${this.baseUrl}/login`;
+    return this.http.post(url, data);
   }
 
   register(data: any): Observable<any> {
-    // Assuming your registration endpoint is 'your-registration-endpoint'
-    return this.httpClient.post('your-registration-endpoint', data);
+    const url = `${this.baseUrl}/signup`;
+    return this.http.post(url, data);
   }
+
+
 }
 
 

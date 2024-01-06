@@ -8,21 +8,10 @@
   
       <mat-card-content>
         <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-          <mat-form-field>
-            <mat-label>Full Name</mat-label>
-            <input matInput type="text" formControlName="fullName">
-          </mat-form-field>
-          <br>
   
           <mat-form-field>
             <mat-label>Username</mat-label>
             <input matInput type="text" formControlName="username">
-          </mat-form-field>
-          <br>
-  
-          <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email">
           </mat-form-field>
           <br>
   
