@@ -1,0 +1,26 @@
+.container{
+    background-color: aliceblue;
+    height:150px;
+    width:100%;
+    display: flex;
+}
+
+.container img{
+    height:160px; 
+    width:230px;
+}
+
+.container ul{
+   margin-top: 40px;
+}
+
+.container li{
+    color:rgb(46, 10, 188);
+    display: flex;
+    float:right;
+    padding:20px;
+    font-size: 20px;
+    font-weight: 560;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing:2px;
+}
