@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ScheduleModule, AgendaService, DayService, WeekService, WorkWeekService, MonthService } from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ScheduleModule,
     MatButtonModule,
     MatInputModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
@@ -29,9 +31,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
   ],
   providers: [
+    AgendaService, DayService, WeekService, WorkWeekService, MonthService,
     provideClientHydration(),
     provideHttpClient(withFetch()),
-
   ],
   bootstrap: [AppComponent]
 })
