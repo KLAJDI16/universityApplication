@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from '../api.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +24,8 @@ import { ApiService } from '../api.service';
 export class LogInComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, public apiService: ApiService) { }
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, public apiService: ApiService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -33,20 +35,22 @@ export class LogInComponent {
   }
 
   onLogin() {
-    if (!this.loginForm.valid){
-      this.openSnackBar();
-    }
-    else {
-      this.login();
-    }
-    console.log(this.loginForm.value);
+    this.router.navigate(['/all-courses']);
+
+    // if (!this.loginForm.valid){
+    //   this.openSnackBar();
+    // }
+    // else {
+    //   this.login();
+    // }
+    // console.log(this.loginForm.value);
   }
   login() {
     
     const { username, password } = this.loginForm.value;
     const data = { username, password };
 
-    this.apiService.authenticate(data).subscribe(
+    this.apiService.login(data).subscribe(
       (response:any)  => {
       console.log('Login response:', response);
     });

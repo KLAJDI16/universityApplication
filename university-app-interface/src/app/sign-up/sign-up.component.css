@@ -20,6 +20,7 @@ mat-card-title {
     font-size: 28px;
     text-align: center;
     padding: 40px;
+    font-weight: 500;
     letter-spacing: 2px;
 }
 
@@ -46,7 +47,7 @@ mat-card-footer {
 
 mat-card-content button {
     margin-top: 16px;
-    background-color: rgba(169, 160, 160, 0.858);
+    background-color: rgba(58, 121, 198, 0.995);
     border-radius: 3px;
     width: max-content;
     height: 50px;
@@ -68,6 +69,6 @@ span:hover {
 }
 
 mat-card-content button:hover {
-    color: black;
+    color: #DCF2F1;
     cursor: pointer;
 }

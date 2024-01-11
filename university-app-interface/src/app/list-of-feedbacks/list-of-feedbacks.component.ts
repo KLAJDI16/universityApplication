@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-list-of-feedbacks',
@@ -8,14 +9,18 @@ import { Component } from '@angular/core';
   styleUrl: './list-of-feedbacks.component.css'
 })
 export class ListOfFeedbacksComponent {
- // @Input() feedbackList: Feedback[] = [];
-  // merri nga backu si stream te dhenash
+  @Input() courseID: any;
   userHasCommentedBefore: boolean = false;
- 
-}
-interface Feedback {
-  userName: string;
-  rating: number;
-  description: string;
-  stringDate: string;
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.showListOfFeedbacks();
+  }
+
+  showListOfFeedbacks() { 
+    this.apiService.viewFeedbacks(this.courseID).subscribe((response: any) => {
+      console.log(response);
+    });
+  }
 }

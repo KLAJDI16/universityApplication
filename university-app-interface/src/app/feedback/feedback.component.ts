@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-feedback',
@@ -8,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./feedback.component.css'],
 })
 export class FeedbackComponent {
+  @Input() courseID:any;
   
   public feedbackForm: FormGroup = this.formBuilder.group({
     rating: new FormControl(0, Validators.required),
@@ -15,23 +17,29 @@ export class FeedbackComponent {
   });
 
   constructor(private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,) {}
+    private snackBar: MatSnackBar,
+    private apiService: ApiService) {}
 
   submitFeedback(): void {
     if (this.feedbackForm.valid) {
+
       const currentDate = new Date();
       const timestamp = currentDate.getTime(); 
       const isoStringDate = currentDate.toISOString(); 
 
       const feedbackData = {
+        courseId: this.courseID,
         rating: this.feedbackForm.get('rating')?.value,
         description: this.feedbackForm.get('description')?.value,
         timestamp: timestamp,
         isoStringDate: isoStringDate,
       };
 
-      console.log('Feedback Submitted:', feedbackData);
-      // Add logic to send data to the backend (e.g., using a service)
+      this.apiService.leaveFeedback(feedbackData).subscribe((response: any) => {
+       
+        console.log('Feedback submitted successfully:', response);
+      });
+      
     } else {
       this.snackBar.open('Please fill in all required fields!', 'Close', {
         duration: 3000,
