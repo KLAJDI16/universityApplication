@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/platform-server": "^17.0.0",
     "@angular/router": "^17.0.0",
-    "@angular/ssr": "^17.0.7",
+    "@angular/ssr": "^17.0.10",
     "@syncfusion/ej2-angular-schedule": "^24.1.41",
     "angular-calendar": "^0.31.0",
     "date-fns": "^3.0.6",
@@ -34,8 +34,8 @@
     "@syncfusion/ej2-material-theme": "~24.1.41"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.7",
-    "@angular/cli": "^17.0.7",
+    "@angular-devkit/build-angular": "^17.0.10",
+    "@angular/cli": "^17.0.10",
     "@angular/compiler-cli": "^17.0.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",

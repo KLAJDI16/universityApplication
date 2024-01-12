@@ -1,18 +1,18 @@
 <app-nav-bar></app-nav-bar>
 
 <div class="container">
+    <h2>Top 8 Rated Courses in our University</h2>
     <div class="row">
-      <div class="col-md-4" *ngFor="let course of topCourses; let i=index">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ i + 1 }}. {{ course.courseName }}</mat-card-title>
-            <mat-card-subtitle>Rating:</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ngb-rating [rate]="course.rating" [max]="5" [readonly]="true"></ngb-rating>
-          </mat-card-content>
-        </mat-card>
-      </div>
+        <div class="col-md-6" *ngFor="let course of topCourses; let i=index">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{ i + 1 }}. {{ course.courseName }}</mat-card-title>
+                    <div class="viewbtn">
+                        <button mat-raised-button color="primary" type="submit">View Course</button>
+                    </div>
+                    <mat-card-subtitle>Rating:</mat-card-subtitle>
+                </mat-card-header>
+            </mat-card>
+        </div>
     </div>
-  </div>
-  
+</div>

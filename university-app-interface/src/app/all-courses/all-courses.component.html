@@ -1,2 +1,47 @@
 <app-nav-bar></app-nav-bar>
 
+<app-search-bar [allCourses]="allCourses" (filteredCourses)="onFilteredCourses(filteredCourses)"></app-search-bar>
+
+<!-- Display the courses based on the search filter -->
+<div *ngIf="filteredCourses.length > 0; else showAllCourses">
+    <!-- Display filtered courses -->
+    <div *ngFor="let course of filteredCourses">
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+                <mat-panel-description>
+                  Click here for brief information.
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+    </div>
+</div>
+
+<ng-template #showAllCourses>
+    <div *ngFor="let course of allCourses">
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                 {{course.courseName}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Click here for brief information.
+                </mat-panel-description>
+                <div class="button-container">
+                    <button mat-raised-button color="primary">View Course</button>
+                </div>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+    </div>
+   
+</ng-template>

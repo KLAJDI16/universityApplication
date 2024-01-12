@@ -1,0 +1,25 @@
+
+mat-expansion-panel {
+    width: 90%;
+    margin: 0 5%;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+mat-panel-title {
+    font-size: 26px;
+}
+
+button {
+    background-color: rgba(58, 121, 198, 0.995);
+    border-radius: 3px;
+    width: max-content;
+    height: 40px;
+    font-size: 18px;
+    color: #ffffff;
+    border-color:rgb(243, 243, 252) ;
+    border-radius: 7px;
+    padding: 10px;
+    letter-spacing: 2px;
+    margin-right: 20px;
+}
