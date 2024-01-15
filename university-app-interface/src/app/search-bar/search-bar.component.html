@@ -4,6 +4,8 @@
   
 
     <div class="search-overlay">
+
+      <p class="university-description">Polytechnic University of Tirana, preparing generations of engineers and scientists as well as contributing to the country's academic and technological advancement!</p>
       <mat-form-field class="search-input">
         <mat-label>Search for courses</mat-label>
         <input matInput type="text" [(ngModel)]="searchTerm">
@@ -15,8 +17,8 @@
       <button matSuffix mat-icon-button *ngIf="searchTerm" aria-label="Search" (click)="onSearch()">
         <mat-icon>search</mat-icon>
       </button>
+      <button mat-raised-button *ngIf="searchTerm" (click)="clearSearch()">Show All</button>
   
-      <p class="university-description">Polytechnic University of Tirana</p>
     </div>
   </div>
   

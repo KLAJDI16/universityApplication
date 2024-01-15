@@ -1,1 +1,39 @@
-<p>course-page works!</p>
+<app-nav-bar></app-nav-bar>
+<app-list-of-feedbacks></app-list-of-feedbacks>
+
+
+
+
+<div class="course-container">
+    <div class="banner-container">
+        <img src="https://business.unl.edu/current-students/clifton-strengths-institute/strengths-program/images/strengths_banner.jpg"
+            alt="Course Banner" class="course-banner">
+    </div>
+
+    <div class="course-details">
+        <div class="course-header">
+            <h2>{{ course.courseName }}</h2>
+
+            <button mat-raised-button color="primary" class="enroll-button" (click)="enroll()">Enroll</button>
+        </div>
+
+        <div class="course-details">
+
+            <p><strong>Professor:</strong> {{ course.professor }}</p>
+            <mat-divider></mat-divider>
+
+            <p><strong>Hall:</strong> {{ course.hall }}</p>
+            <mat-divider></mat-divider>
+
+            <p><strong>Semester:</strong> {{ course.semester }}</p>
+            <mat-divider></mat-divider>
+
+            <p><strong>Day of the Week:</strong> {{ course.dayOfWeek }}</p>
+            <mat-divider></mat-divider>
+
+            <p><strong>Number of Students:</strong> {{ course.numStudents }}</p>
+        </div>
+
+
+    </div>
+</div>

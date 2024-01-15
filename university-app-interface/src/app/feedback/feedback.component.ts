@@ -2,12 +2,20 @@ import { Component, Input, } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from '../api.service';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSliderModule} from '@angular/material/slider';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.css'],
+  imports: [NgbRatingModule,MatSliderModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  standalone: true,
 })
+
 export class FeedbackComponent {
   @Input() courseID:any;
   
@@ -39,11 +47,15 @@ export class FeedbackComponent {
        
         console.log('Feedback submitted successfully:', response);
       });
-      
+
     } else {
       this.snackBar.open('Please fill in all required fields!', 'Close', {
         duration: 3000,
      });
     }
   }
+ GetRating(){
+  console.log(this.feedbackForm.value.rating);
+ }
+  
 }
