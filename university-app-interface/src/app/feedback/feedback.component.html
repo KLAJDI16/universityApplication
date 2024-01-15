@@ -1,11 +1,27 @@
 <div class="feedback-container">
     <form [formGroup]="feedbackForm">
-      <!-- Shiko se mund te jete gabim pjesa get(rating) -->
-      <ngb-rating [max]="5" (click)="GetRating()" [formControl]="feedbackForm.get('rating')"></ngb-rating>
+       <p>Leave a review  for this course.</p>
+      <!-- <ngb-rating [max]="5" formControlName="rating"></ngb-rating> -->
+      <div class="example-form">
+
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Rating: (?/5)</mat-label>
+          <input matInput type="number" value="rating" required>
+        </mat-form-field> -->
+
+        <mat-slider min="0" max="5" step="1" discrete formControlName="rating">
+          <input matSliderThumb>
+        </mat-slider>
+        
+      </div>
+      
   
       <div class="form-group">
-        <label for="description">Add your description:</label>
-        <textarea id="description" formControlName="description" class="form-control"></textarea>
+        <mat-form-field class="example-full-width">
+          <mat-label>Add your description</mat-label>
+          <textarea id="description" formControlName="description" class="form-control"
+           matInput placeholder="Ex. I think that this course..."></textarea>
+        </mat-form-field>
       </div>
   
       <button type="button" (click)="submitFeedback()">Submit Feedback</button>

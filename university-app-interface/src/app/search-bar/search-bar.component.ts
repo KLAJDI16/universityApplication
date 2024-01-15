@@ -29,5 +29,8 @@ export class SearchBarComponent {
     );
     this.filteredCourses.emit(filteredCourses);
   }
-
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.filteredCourses.emit(this.allCourses); 
+  }
 }

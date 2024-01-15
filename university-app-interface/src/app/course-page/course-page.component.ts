@@ -1,18 +1,31 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
+import { FeedbackComponent } from '../feedback/feedback.component';
+import { ListOfFeedbacksComponent } from '../list-of-feedbacks/list-of-feedbacks.component';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-course-page',
   standalone: true,
-  imports: [],
+  imports: [FeedbackComponent,MatDividerModule, ListOfFeedbacksComponent, NavBarComponent ],
   templateUrl: './course-page.component.html',
   styleUrl: './course-page.component.css'
 })
 export class CoursePageComponent {
 
-  course!:any;
+  course1!:any;
   constructor(private apiService: ApiService, private router: Router,) {}
+
+  course = {
+    courseName: 'Introduction to Angular',
+    professor: 'Dr. Smith',
+    hall: 'Building A, Room 101',
+    semester: 'Spring 2023',
+    dayOfWeek: 'Monday',
+    numStudents: 25
+  };
 
   ngOnInit() {
 

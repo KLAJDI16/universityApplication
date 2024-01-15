@@ -10,7 +10,7 @@
   }
   
   .stars {
-    margin-left: 5px; 
+    float: right;
   }
   
   .description {
@@ -22,3 +22,13 @@
     color: #888;
   }
   
+
+  .comments-container {
+    width: 100%;
+    max-width: 500px;
+    float: right;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+   
+  }

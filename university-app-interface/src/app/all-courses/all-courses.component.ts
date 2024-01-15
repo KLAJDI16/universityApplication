@@ -41,8 +41,9 @@ export class AllCoursesComponent {
   }
  
   openCourseDetails(course: any) {
-    this.router.navigate(['/course', course.id]); 
+    this.router.navigate(['/course-page', course.id]); 
   }
+
   onFilteredCourses(filteredCourses: any[]): void {
     this.filteredCourses = filteredCourses;
   }
