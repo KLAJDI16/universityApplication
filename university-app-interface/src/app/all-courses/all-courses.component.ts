@@ -21,12 +21,6 @@ export class AllCoursesComponent {
 
   constructor(private apiService: ApiService,  private router: Router) {}
 
-  @Output() allCourses = [
-    { id: 1, courseName: 'Analize', description: 'Description 1' },
-    { id: 2, courseName: 'Algjeber', description: 'Description 2' },
-    { id: 3, courseName: 'Course 3', description: 'Description 3' },
-  ];
-
   @Input() filteredCourses:any = [];
 
   ngOnInit(): void {
@@ -35,13 +29,15 @@ export class AllCoursesComponent {
 
   getCourses(): void {
     
-    this.apiService.listAllCourses().subscribe((courses) => {
-      this.courses = courses;
-    });
+    this.apiService.retrieveCourses().subscribe((courses) => {
+          this.courses = courses;
+          console.log(this.courses);
+        });
   }
+  
  
   openCourseDetails(course: any) {
-    this.router.navigate(['/course-page', course.id]); 
+    this.router.navigate(['/course-page', course.name], { queryParams: { course: JSON.stringify(course) } });
   }
 
   onFilteredCourses(filteredCourses: any[]): void {

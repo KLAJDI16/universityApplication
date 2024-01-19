@@ -1,51 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'myurl';
+  private baseUrl = 'http://localhost:8989';
 
   constructor(private http: HttpClient) {}
 
 
   register(user: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/user/register`, user);
+    return this.http.post<any>(`${this.baseUrl}/register`, user);
   }
 
   login(user: any): Observable<boolean> {
-    return this.http.post<boolean>(`${this.baseUrl}/user/login`, user);
+    return this.http.post<boolean>(`${this.baseUrl}/login`, user);
   }
 
   joinCourse(requestModel: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/user/join`, requestModel);
+    return this.http.post<any>(`${this.baseUrl}/join`, requestModel);
   }
   dropCourse(requestModel: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/user/drop`, requestModel);
+    return this.http.post<any>(`${this.baseUrl}/drop`, requestModel);
   }
 
   retrieveCourses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/user/retrieve`);
+    return this.http.get<any[]>(`${this.baseUrl}/retrieve`);
   }
 
   leaveFeedback(requestModel: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/user/leaveFeedback`, requestModel);
+    return this.http.post<any>(`${this.baseUrl}/leaveFeedback`, requestModel);
   }
 
   viewFeedbacks(courseName: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/user/view/${courseName}`);
+    return this.http.get<any>(`${this.baseUrl}/view/${courseName}`);
   }
 
   topCourses(rate: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/user/courses/${rate}`);
+    return this.http.get<any[]>(`${this.baseUrl}courses/${rate}`);
   }
 
-  listAllCourses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/user/courses`);
+  userCourses(username: any): Observable<any[]> {
+    const params = new HttpParams().set('username', username);
+    return this.http.get<any[]>(`${this.baseUrl}/userCourses`, { params });
   }
-
+  
 }
 
 

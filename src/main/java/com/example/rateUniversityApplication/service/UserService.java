@@ -126,66 +126,62 @@ return requestModel.request.feedbackModel;
 
 }
 
-public CourseFeedbackRating viewFeedbacks(String courseName) {
-Course course = courseRepository.findByName(courseName).get(0);
-int count = 0;
-for(Feedback feedback: course.getListFeedbacks()) {
-count+=feedback.getRating();
-}
-double avg = (double)count / (double) course.getListFeedbacks().size();
-
-List<FeedbackModel> list = course.getListFeedbacks().stream().sorted().map(e -> e.getFeedbackModel()).toList();
-
-
-
-
-return new CourseFeedbackRating(list,avg);
-
-}
-
-public List<CourseModel> topCourses(int rate){
-List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().sorted().limit(rate).toList();
-
-return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
-}
-
-public List<CourseModel> listAllCourses(){
-List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().toList();
-if(list.isEmpty()) {
-printError(HttpStatus.NO_CONTENT,"List is empty");
-}
-return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
-}
-
-// @Scheduled(fixedDelay = 1000*60*5)
-// public void deleteFeedback() {
-// for(Feedback feedback : feedbackRepository.findAll()) {
-// if(feedback.getDate().plusYears(1).isAfter(LocalDateTime.now())) {
-// CourseFeedback courseFeedback = courseFeedbackRepository.findByFeedback(feedback).get(0);
-// courseFeedbackRepository.delete(courseFeedback);
-// feedbackRepository.delete(feedback);
-// }
-// }
-// }
+	public CourseFeedbackRating viewFeedbacks(String courseName) {
+		Course course = courseRepository.findByName(courseName).get(0);
+		int count = 0;
+		for(Feedback feedback: course.getListFeedbacks()) {
+			count+=feedback.getRating();
+		}
+		double avg = (double)count / (double) course.getListFeedbacks().size();
+		
+	List<FeedbackModel> list =	course.getListFeedbacks().stream().sorted().map(e -> e.getFeedbackModel()).toList();
+		
+		 
+		 
+		 
+		 return new CourseFeedbackRating(list,avg);
+				
+	}
+	
+	public List<CourseModel> topCourses(int rate){
+		List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().sorted().limit(rate).toList(); 
+		if(list.isEmpty()){
+			printError(HttpStatus.BAD_REQUEST,"Empty List");
+		}
+		return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
+	}
 
 
-public void printError(HttpStatus httpStatus,String str) {
-System.err.println(str);
-throw new ResponseStatusException(httpStatus, str);
-}
+	
+	@Scheduled(fixedDelay = 1000*60*5)
+	public void deleteFeedback() {
+		for(Feedback feedback : feedbackRepository.findAll()) {
+			if(feedback.getDate().plusYears(1).isAfter(LocalDateTime.now())) {
+				CourseFeedback courseFeedback = courseFeedbackRepository.findByFeedback(feedback).get(0);
+				courseFeedbackRepository.delete(courseFeedback);
+				feedbackRepository.delete(feedback);
+			}
+		}
+	}
+	
+	
+	public void printError(HttpStatus httpStatus,String str) {
+		System.err.println(str);
+		throw new ResponseStatusException(httpStatus, str);
+	}
+	
+	public void validateUser(UserModel request) {
+		if(request.username.length()<=5) printError(HttpStatus.BAD_REQUEST,"Username should be with more than 5 characters ");
+		if(request.username.length()>=30) printError(HttpStatus.BAD_REQUEST,"Username should be with less than 30 characters ");	
+		if(request.password.length()<=5) printError(HttpStatus.BAD_REQUEST,"Password should be with more than 5 characters ");
+		if(request.password.length()>=30) printError(HttpStatus.BAD_REQUEST,"Password should be with less than 30 characters ");
+	}
 
-public void validateUser(UserModel request) {
-if(request.username.length()<=5) printError(HttpStatus.BAD_REQUEST,"Username should be with more than 5 characters ");
-if(request.username.length()>=30) printError(HttpStatus.BAD_REQUEST,"Username should be with less than 30 characters ");
-if(request.password.length()<=5) printError(HttpStatus.BAD_REQUEST,"Password should be with more than 5 characters ");
-if(request.password.length()>=30) printError(HttpStatus.BAD_REQUEST,"Password should be with less than 30 characters ");
-}
+	public List<CourseModel> getUserCourses(String name) {
 
-public List<CourseModel> getUserCourses(String name) {
+		User user = userRepository.findByUsername(name).get(0);
 
-User user = userRepository.findByUsername(name).get(0);
+		return user.getCourses().stream().map(e -> e.getCourseModel()).toList();
 
-return user.getCourses().stream().map(e -> e.getCourseModel()).toList();
-
-}
+	}
 }

@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from '../api.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,11 +23,12 @@ import { ApiService } from '../api.service';
 export class SignUpComponent  {
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar, public apiService: ApiService ) {
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,
+     public apiService: ApiService, private router: Router ) {
 
     this.signupForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{};:,<.>]).{8,}$/)]],
+      password: ['', Validators.required,],
       confirmPassword: ['', Validators.required],
     });
   }
@@ -53,6 +55,10 @@ export class SignUpComponent  {
 
     this.apiService.register(data).subscribe((response:any)  => {
       console.log('Registration response:', response);
+
+      sessionStorage.setItem('username', username);
+
+      this.router.navigate(['/all-courses']);
     });
   }
 

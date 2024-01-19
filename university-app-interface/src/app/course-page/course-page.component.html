@@ -12,26 +12,33 @@
 
     <div class="course-details">
         <div class="course-header">
-            <h2>{{ course.courseName }}</h2>
+            <h2>{{ course.name }}</h2>
 
-            <button mat-raised-button color="primary" class="enroll-button" (click)="enroll()">Enroll</button>
+            <button mat-raised-button color="primary" (click)="enroll()" *ngIf="!isRegistered(course)">Enroll</button>
+            <button mat-raised-button color="warn" (click)="unenroll()" *ngIf="isRegistered(course)">Unenroll</button>
+
         </div>
+       
 
         <div class="course-details">
 
-            <p><strong>Professor:</strong> {{ course.professor }}</p>
+            <p><strong>Description:</strong> {{ course.description }}</p>
             <mat-divider></mat-divider>
 
-            <p><strong>Hall:</strong> {{ course.hall }}</p>
+            <p><strong>Lecturer:</strong> {{ course.lecturer }}</p>
             <mat-divider></mat-divider>
 
-            <p><strong>Semester:</strong> {{ course.semester }}</p>
+            <p><strong>Hall:</strong> {{ course.hallLocation }}</p>
             <mat-divider></mat-divider>
 
-            <p><strong>Day of the Week:</strong> {{ course.dayOfWeek }}</p>
+            <p><strong>Starts On:</strong> {{ course.startDate | date:'yyyy-MM-dd HH:mm' }}</p>
             <mat-divider></mat-divider>
 
-            <p><strong>Number of Students:</strong> {{ course.numStudents }}</p>
+            <p><strong>Ends On:</strong> {{ course.endDate | date:'yyyy-MM-dd HH:mm' }}</p>
+            <mat-divider></mat-divider>
+
+            <p><strong>Number of Students:</strong> {{ course.registeredStudents }}</p>
+
         </div>
 
 

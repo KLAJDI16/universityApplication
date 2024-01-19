@@ -30,20 +30,18 @@ export class LogInComponent {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', Validators.required,],
     });
   }
-
   onLogin() {
-    this.router.navigate(['/all-courses']);
 
-    // if (!this.loginForm.valid){
-    //   this.openSnackBar();
-    // }
-    // else {
-    //   this.login();
-    // }
-    // console.log(this.loginForm.value);
+    if (!this.loginForm.valid){
+      this.openSnackBar();
+    }
+    else {
+      this.login();
+    }
+    console.log(this.loginForm.value);
   }
   login() {
     
@@ -53,6 +51,10 @@ export class LogInComponent {
     this.apiService.login(data).subscribe(
       (response:any)  => {
       console.log('Login response:', response);
+
+      sessionStorage.setItem('username', username);
+
+      this.router.navigate(['/all-courses']);
     });
   }
 

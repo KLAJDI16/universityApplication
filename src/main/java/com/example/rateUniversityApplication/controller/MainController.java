@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,6 @@ import com.example.rateUniversityApplication.dao.UserModel;
 import com.example.rateUniversityApplication.service.UserService;
 
 @RestController("/user")
-@CrossOrigin(allowedHeaders = "*")
 public class MainController {
 
 @Autowired
@@ -59,21 +57,15 @@ return ResponseEntity.ok(userService.leaveFeedback(requestModel));
 public ResponseEntity<CourseFeedbackRating> viewFeedbacks(@PathVariable("courseName") String courseName) {
 return ResponseEntity.ok(userService.viewFeedbacks(courseName));
 
-}
-@GetMapping("/courses/{rate}")
-public ResponseEntity<List<CourseModel>> topCourses(@PathVariable("rate") int rate){
-return ResponseEntity.ok(userService.topCourses(rate));
-}
-// @GetMapping("/courses")
-// public ResponseEntity<List<CourseModel>> listAllCourses(){
-// return ResponseEntity.ok(userService.listAllCourses());
-// }
-@GetMapping("/userCourses/{username}")
-
-public ResponseEntity<List<CourseModel>> getUserCourses(@PathVariable("username") String name) {
-
-return ResponseEntity.ok(userService.getUserCourses(name));
-
-}
-
+	}
+	@GetMapping("/courses/{rate}")
+	public ResponseEntity<List<CourseModel>> topCourses(@PathVariable("rate") int rate){
+		return 	ResponseEntity.ok(userService.topCourses(rate));
+	}
+	@GetMapping("/courses")
+	public ResponseEntity<List<CourseModel>> listAllCourses(){
+		return 	ResponseEntity.ok(userService.listAllCourses());
+	}
+	
+		
 }

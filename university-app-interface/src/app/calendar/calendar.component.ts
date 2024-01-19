@@ -60,14 +60,15 @@ export class CalendarComponent {
 
 }
   ngOnInit() {
-    this.retrieveCourses();
+    this.retrieveUserCourses();
   }
 
-  retrieveCourses() {
-    this.apiService.retrieveCourses().subscribe((courses: any[]) => {
+  retrieveUserCourses() {
+    const user= sessionStorage.getItem('user');
+    this.apiService.userCourses(user).subscribe((courses: any[]) => {
       this.events = courses.map((course) => {
-        const start = this.calculateStartDate(course.courseDate, course.startTime);
-        const end = this.calculateEndDate(course.courseDate, course.endTime);
+        const start = course.startDate;
+        const end = course.endDate;
 
         return {
           start,
@@ -78,26 +79,7 @@ export class CalendarComponent {
     });
   }
 
-  calculateStartDate(courseDate: string, startTime: string): Date {
-    const startDateTime = new Date(courseDate);
-    const [hours, minutes] = startTime.split(':');
-
-    startDateTime.setHours(parseInt(hours, 10));
-    startDateTime.setMinutes(parseInt(minutes, 10));
-
-    return startDateTime;
-  }
-
-  calculateEndDate(courseDate: string, endTime: string): Date {
-    const startDateTime = this.calculateStartDate(courseDate, endTime);
-    const endDateTime = new Date(startDateTime);
-    const [hours, minutes] = endTime.split(':');
-
-    endDateTime.setHours(parseInt(hours, 10));
-    endDateTime.setMinutes(parseInt(minutes, 10));
-
-    return endDateTime;
-  }
+  
 
   handleDayClick(day: any) {
     // Handle day click logic here
