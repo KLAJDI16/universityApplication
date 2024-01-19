@@ -11,7 +11,7 @@ public class FeedbackModel {
 	public String feedbackDescription;
 	public int rating;
 	public LocalDateTime date;
-	String formattedDate;
+	public String formattedDate;
 
 	public FeedbackModel(String feedbackDescription, int rating) {
 		super();
