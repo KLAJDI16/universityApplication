@@ -65,10 +65,10 @@ return true;
 }
 
 public  RequestModel joinCourse(RequestModel<String> requestModel) {
-if (!login(requestModel.userModel)){
-printError(HttpStatus.NO_CONTENT,"Validation failed");
-}
-User user = userRepository.findByUsernameAndPassword(requestModel.userModel.username, requestModel.userModel.password).get(0);
+//		if (!login(requestModel.userModel)){
+//			printError(HttpStatus.NO_CONTENT,"Validation failed");
+//		}
+		User user = userRepository.findByUsername(requestModel.user).get(0);
 Course course = courseRepository.findByName(requestModel.request).get(0);
 if(user.getCourses().contains(course)) {
 printError(HttpStatus.BAD_REQUEST,"User already registered in this course");
@@ -81,10 +81,10 @@ return requestModel;
 }
 
 public RequestModel dropCourse(RequestModel<String> requestModel) {
-if (!login(requestModel.userModel)){
-printError(HttpStatus.NO_CONTENT,"Login failed");
-}
-User user = userRepository.findByUsernameAndPassword(requestModel.userModel.username, requestModel.userModel.password).get(0);
+//		if (!login(requestModel.userModel)){
+//			printError(HttpStatus.NO_CONTENT,"Validation failed");
+//		}
+		User user = userRepository.findByUsername(requestModel.user).get(0);
 
 Course course = courseRepository.findByName(requestModel.request).get(0);
 
@@ -100,10 +100,10 @@ return courseRepository.findAll().stream().map(e -> e.getCourseModel()).toList()
 }
 
 public FeedbackModel leaveFeedback(RequestModel<CourseFeedbackModel> requestModel) {
-if (!login(requestModel.userModel)){
-printError(HttpStatus.NO_CONTENT,"Validation failed");
-}
-User user = userRepository.findByUsername(requestModel.userModel.username).get(0);
+//		if (!login(requestModel.userModel)){
+//			printError(HttpStatus.NO_CONTENT,"Validation failed");
+//		}
+		User user = userRepository.findByUsername(requestModel.user).get(0);
 Course course = courseRepository.findByName(requestModel.request.course).get(0);
 if(!course.getUsers().contains(user)) {
 printError(HttpStatus.BAD_REQUEST,"User not registered in the Course");
