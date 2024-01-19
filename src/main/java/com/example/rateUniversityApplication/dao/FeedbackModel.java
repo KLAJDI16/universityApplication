@@ -25,7 +25,14 @@ public class FeedbackModel {
 		this.rating = rating;
 		this.date = date;
 	}
-	
+
+	public String getDescription() {
+		return feedbackDescription;
+	}
+
+	public int getRating() {
+		return rating;
+	}
 	
 	
 }

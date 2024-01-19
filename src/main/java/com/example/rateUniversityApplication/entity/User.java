@@ -1,6 +1,8 @@
 package com.example.rateUniversityApplication.entity;
 
 import java.util.List;
+import java.util.ArrayList;
+
 
 import com.example.rateUniversityApplication.dao.UserModel;
 
@@ -40,9 +42,16 @@ private List<Course> courses;
 private CourseFeedback courseFeedback;
 
 public void addCourse(Course course) {
+	if (courses == null) {
+		courses = new ArrayList<>();
+	}
 	courses.add(course);
 }
 public void removeCourse(Course course) {
+	if (courses != null) {
+		courses.remove(course);
+	}
+
 	courses.remove(course);
 }
 

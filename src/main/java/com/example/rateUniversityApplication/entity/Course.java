@@ -2,12 +2,10 @@ package com.example.rateUniversityApplication.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.example.rateUniversityApplication.dao.CourseModel;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -60,7 +58,7 @@ public class Course {
 		listFeedbacks.remove(feedback);
 	}
 	
-	public Course(String name,String description, String lecturer, String hallLocation, int registeredStudents) {
+	public Course(String name) {
 		super();
 		this.name = name;
 		this.description = description;

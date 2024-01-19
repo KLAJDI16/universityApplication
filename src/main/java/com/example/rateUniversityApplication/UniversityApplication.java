@@ -28,30 +28,34 @@ public class UniversityApplication implements CommandLineRunner{
  @Autowired
  public UserRepository userRepository;
 
-
+ @Autowired
+ public UniversityApplication(CourseRepository courseRepository, UserRepository userRepository) {
+  this.courseRepository = courseRepository;
+  this.userRepository = userRepository;
+ }
  @Override
  public void run(String... args) throws Exception {
   if(userRepository.count()==0) {
    User[] users = new User[] {
-     new User("klajdi@gmail.com","klajdi1234"),
-     new User("armando@gmail.com","armando1234"),
-     new User("erta@gmail.com","erta1234"),
-     new User("eridona@gmail.com","eridona1234"),
-     } ;
-   userRepository.saveAll(List.of(users));  
+           new User("klajdi@gmail.com","klajdi1234"),
+           new User("armando@gmail.com","armando1234"),
+           new User("erta@gmail.com","erta1234"),
+           new User("eridona@gmail.com","eridona1234"),
+   } ;
+   userRepository.saveAll(List.of(users));
   }
   if(courseRepository.count()==0) {
    int n=10;
    Course[] courses = new Course[n];
    Course course = new Course();
-            course.setId(1);
-            course.setName("Software Engineering" );
-            course.setDescription("This course includes information on UML diagrams, software strategies, code refactoring, unit tests etc." );
-            course.setLecturer("Ina Papadhopuli");
-            course.setHallLocation("209");
-            course.setStartDate(LocalDateTime.of(2023, 10, 5, 9, 0, 0));
-            course.setEndDate(LocalDateTime.now().plusMonths(4));
-            course.setRegisteredStudents(0);
+   course.setId(1);
+   course.setName("Software Engineering" );
+   course.setDescription("This course includes information on UML diagrams, software strategies, code refactoring, unit tests etc." );
+   course.setLecturer("Ina Papadhopuli");
+   course.setHallLocation("209");
+   course.setStartDate(LocalDateTime.of(2023, 10, 5, 9, 0, 0));
+   course.setEndDate(LocalDateTime.now().plusMonths(4));
+   course.setRegisteredStudents(0);
    courses[0] = course;
 
 
@@ -168,7 +172,7 @@ public class UniversityApplication implements CommandLineRunner{
 // courses[i-1]=course;
 // }
 
-  courseRepository.saveAll(List.of(courses));  
+   courseRepository.saveAll(List.of(courses));
+  }
  }
-}
 }
