@@ -19,18 +19,18 @@ import { CommonModule } from '@angular/common';
 export class SearchBarComponent {
   constructor(public apiService: ApiService){}
 
-  @Input() allCourses: any[] = []; 
+  @Input() courses: any[] = []; 
   @Output() filteredCourses: EventEmitter<any[]> = new EventEmitter<any[]>();
   searchTerm!: string;
   
   onSearch(): void {
-    const filteredCourses = this.allCourses.filter(course =>
-      course.courseName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    const filteredCourses = this.courses.filter(course =>
+      course.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
     this.filteredCourses.emit(filteredCourses);
   }
   clearSearch(): void {
     this.searchTerm = '';
-    this.filteredCourses.emit(this.allCourses); 
+    this.filteredCourses.emit(this.courses); 
   }
 }

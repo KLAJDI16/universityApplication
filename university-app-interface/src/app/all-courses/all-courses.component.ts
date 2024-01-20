@@ -16,7 +16,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 export class AllCoursesComponent {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  courses: any [] = [];
+  @Output() courses: any [] = [];
   panelOpenState = false;
 
   constructor(private apiService: ApiService,  private router: Router) {}

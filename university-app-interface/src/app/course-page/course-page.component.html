@@ -13,12 +13,13 @@
     <div class="course-details">
         <div class="course-header">
             <h2>{{ course.name }}</h2>
+            
+            <button mat-raised-button color="primary" *ngIf="!isRegistered(course)" (click)="enroll()">Enroll</button>
+            <button mat-raised-button color="primary" *ngIf="isRegistered(course)" (click)="unenroll()">Unenroll</button>
 
-            <button mat-raised-button color="primary" (click)="enroll()" *ngIf="!isRegistered(course)">Enroll</button>
-            <button mat-raised-button color="warn" (click)="unenroll()" *ngIf="isRegistered(course)">Unenroll</button>
 
         </div>
-       
+
 
         <div class="course-details">
 
@@ -34,7 +35,7 @@
             <p><strong>Starts On:</strong> {{ course.startDate | date:'yyyy-MM-dd HH:mm' }}</p>
             <mat-divider></mat-divider>
 
-            <p><strong>Ends On:</strong> {{ course.endDate | date:'yyyy-MM-dd HH:mm' }}</p>
+            <p><strong>Ends On:</strong> {{ course.endDate | date:'yyyy-MM-dd' }}</p>
             <mat-divider></mat-divider>
 
             <p><strong>Number of Students:</strong> {{ course.registeredStudents }}</p>

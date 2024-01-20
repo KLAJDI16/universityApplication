@@ -13,7 +13,7 @@ export class NavBarComponent {
   constructor(public router: Router){}
 
   logOut(){
-      //clear local storage
+      sessionStorage.clear();
       this.router.navigate(['/login']);
   }
 }

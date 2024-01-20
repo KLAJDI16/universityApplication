@@ -17,73 +17,60 @@ export class CalendarComponent {
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
+  public eventSettings!: EventSettingsModel;
+  public courses: any[] = [];
 
   constructor(private apiService: ApiService) {}
 
-  public eventData: EventSettingsModel = {
- 
-    dataSource: [{
-
-        Id: 1,
-
-        Subject: 'Board Meeting',
-
-        StartTime: new Date(2018, 10, 30, 9, 0),
-
-        EndTime: new Date(2018, 10, 30, 11, 0)
-
-    },
-
-        {
-
-            Id: 2,
-
-            Subject: 'Training session on JSP',
-
-            StartTime: new Date(2018, 10, 30, 15, 0),
-
-            EndTime: new Date(2018, 10, 30, 17, 0)
-
-        },
-
-        {
-
-            Id: 3,
-
-            Subject: 'Sprint Planning with Team members',
-
-            StartTime: new Date(2018, 10, 30, 9, 30),
-
-            EndTime: new Date(2018, 10, 30, 11, 0)
-
-        }]
-
-}
   ngOnInit() {
     this.retrieveUserCourses();
+    this.eventSettings = {
+      dataSource: this.generateWeeklyEvents(),
+    };
   }
 
   retrieveUserCourses() {
-    const user= sessionStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     this.apiService.userCourses(user).subscribe((courses: any[]) => {
-      this.events = courses.map((course) => {
-        const start = course.startDate;
-        const end = course.endDate;
-
-        return {
-          start,
-          end,
-          title: course.courseName,
-        } as CalendarEvent;
-      });
+      this.courses = courses;
+      this.events = this.generateWeeklyEvents(); 
     });
   }
 
-  
+  generateWeeklyEvents() {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay();
 
-  handleDayClick(day: any) {
-    // Handle day click logic here
+    const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - currentDayOfWeek); 
+
+    const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (6 - currentDayOfWeek));
+
+    const courses = this.courses; 
+
+    const events = [];
+    let currentDay = new Date(startOfWeek);
+
+    while (currentDay <= endOfWeek) {
+      for (const course of courses) {
+        if (currentDay.getDay() === course.dayOfWeek - 1) {
+          const startTime = new Date(currentDay);
+          startTime.setHours(9, 0);
+
+          const endTime = new Date(startTime);
+          endTime.setHours(startTime.getHours() + 3);
+
+          events.push({
+            start: startTime,
+            end: endTime,
+            title: course.name,
+          } as CalendarEvent);
+        }
+      }
+      currentDay.setDate(currentDay.getDate() + 1);
+    }
+
+    return events;
   }
+
+  
 }
-
-

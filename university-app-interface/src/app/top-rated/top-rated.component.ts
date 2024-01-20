@@ -16,17 +16,7 @@ import { NgFor } from '@angular/common';
 export class TopRatedComponent {
 
   topCourses: any[] = [];
-  // topCourses = [
-  //   { id: 1, courseName: 'Course 1', rating: 4 },
-  //   { id: 2, courseName: 'Course 2', rating: 3},
-  //   { id: 3, courseName: 'Course 3', rating: 5 },
-  //   { id: 4, courseName: 'Course 4', rating: 2 },
-  //   { id: 5, courseName: 'Course 5', rating: 4 },
-  //   { id: 6, courseName: 'Course 6', rating: 3 },
-  //   { id: 7, courseName: 'Course 7', rating: 4 },
-  //   { id: 8, courseName: 'Course 8', rating: 3 }
-  // ];
-
+ 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {

@@ -7,7 +7,6 @@
   <div *ngFor="let feedbackItem of feedbackList" class="feedback-item">
     <div class="user-info">{{ feedbackItem.userName }}</div>
     
-      <!-- <ngb-rating [max]="5" [(rate)]="feedbackItem.rating" [readonly]="true"></ngb-rating> -->
       <span class="stars">{{ feedbackItem.rating }} out of 5</span>
     
     <div class="description">{{ feedbackItem.description }}</div>

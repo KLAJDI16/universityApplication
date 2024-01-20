@@ -1,10 +1,10 @@
 <app-nav-bar></app-nav-bar>
 
-<app-search-bar [allCourses]="courses" (filteredCourses)="onFilteredCourses($event)"></app-search-bar>
+<app-search-bar [courses]="courses" (filteredCourses)="onFilteredCourses($event)"></app-search-bar>
 
-<!-- Display the courses based on the search filter -->
+
 <div *ngIf="filteredCourses.length > 0; else showAllCourses">
-  <!-- Display filtered courses -->
+ 
   <div *ngFor="let course of filteredCourses">
     <mat-accordion>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -15,7 +15,11 @@
           <mat-panel-description>
             Click here for brief information.
           </mat-panel-description>
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="openCourseDetails(course)">View Course</button>
+          </div>
         </mat-expansion-panel-header>
+        
         <p>{{ course.description }}</p>
         <p>Lecturer: {{ course.lecturer }}</p>
       </mat-expansion-panel>

@@ -18,7 +18,7 @@ import { MatSliderModule } from '@angular/material/slider';
 })
 
 export class FeedbackComponent implements OnInit {
-  @Input() courseID: any;
+  @Input() courseName: any;
 
   public feedbackForm: FormGroup = this.formBuilder.group({
     rating: new FormControl(0, Validators.min(1)),
@@ -41,7 +41,8 @@ export class FeedbackComponent implements OnInit {
     if (this.feedbackForm.valid) {
 
       const feedbackData = {
-        courseId: this.courseID,
+        user: this.apiService.getUser(),
+        courseName: this.courseName,
         rating: this.feedbackForm.get('rating')?.value,
         description: this.feedbackForm.get('description')?.value,
       };
@@ -50,6 +51,10 @@ export class FeedbackComponent implements OnInit {
       this.apiService.leaveFeedback(feedbackData).subscribe((response: any) => {
 
         console.log('Feedback submitted successfully:', response);
+        this.snackBar.open('Feedback submitted successfully!', 'Close', {
+          duration: 3000,
+        });
+
       });
 
     } else {

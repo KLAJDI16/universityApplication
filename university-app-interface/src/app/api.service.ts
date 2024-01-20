@@ -20,10 +20,13 @@ export class ApiService {
     return this.http.post<boolean>(`${this.baseUrl}/login`, user);
   }
 
-  joinCourse(requestModel: any): Observable<any> {
+  joinCourse(user: string, courseName: string): Observable<any> {
+    const requestModel = { user, request: courseName };
     return this.http.post<any>(`${this.baseUrl}/join`, requestModel);
   }
-  dropCourse(requestModel: any): Observable<any> {
+  
+  dropCourse(user: string, courseName: string): Observable<any> {
+    const requestModel = { user, request: courseName };
     return this.http.post<any>(`${this.baseUrl}/drop`, requestModel);
   }
 
@@ -47,6 +50,12 @@ export class ApiService {
     const params = new HttpParams().set('username', username);
     return this.http.get<any[]>(`${this.baseUrl}/userCourses`, { params });
   }
+
+  getUser(): string | null {
+    const user = sessionStorage.getItem('username');
+    return user;
+  }
+  
   
 }
 

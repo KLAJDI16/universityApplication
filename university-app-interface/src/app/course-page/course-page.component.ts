@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 export class CoursePageComponent {
 
   course!: any;
+
   constructor(private apiService: ApiService, private router: Router,
     private route: ActivatedRoute) { }
 
@@ -35,16 +36,26 @@ export class CoursePageComponent {
   }
 
   enroll() {
-    this.apiService.joinCourse(this.course);
-  }
+    const courseName = this.course.name; 
+    const user= this.apiService.getUser();
 
+    this.apiService.joinCourse(user!,courseName).subscribe(response => {
+      console.log(response);
+    });
+  }
+  
   unenroll() {
-    this.apiService.dropCourse(this.course);
-  }
+    const courseName = this.course.name; 
+    const user= this.apiService.getUser();
 
+    this.apiService.dropCourse(user!,courseName).subscribe(response => {
+       console.log(response);
+    });
+  }
+  
  
   isRegistered(course: any): boolean {
-    const username= sessionStorage.getItem("username");
+    const username= this.apiService.getUser();
 
     let registered=false;
     this.apiService.userCourses(username).subscribe((userCourses) => {

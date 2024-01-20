@@ -56,9 +56,7 @@ export class SignUpComponent  {
     this.apiService.register(data).subscribe((response:any)  => {
       console.log('Registration response:', response);
 
-      sessionStorage.setItem('username', username);
-
-      this.router.navigate(['/all-courses']);
+      this.router.navigate(['/login']);
     });
   }
 
