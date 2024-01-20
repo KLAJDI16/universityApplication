@@ -24,8 +24,8 @@ public class CourseModel {
 		this.registeredStudents = registeredStudents;
 	}
 
-	
-	
-	
-	
+    public String getName() {
+		return name;
+	}
+
 }

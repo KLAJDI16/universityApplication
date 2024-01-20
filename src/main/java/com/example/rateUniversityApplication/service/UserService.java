@@ -30,158 +30,162 @@ import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 @Service
 public class UserService {
 
-@Autowired
-private UserRepository userRepository;
-@Autowired
-private CourseRepository courseRepository;
-@Autowired
-private FeedbackRepository feedbackRepository;
-@Autowired
-private CourseFeedbackRepository courseFeedbackRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+    @Autowired
+    private CourseFeedbackRepository courseFeedbackRepository;
 
 
 
-public UserModel register(UserModel request) {
-List<User> users = userRepository.findByUsername(request.username);
-validateUser(request);
-if(!users.isEmpty()) printError(HttpStatus.BAD_REQUEST,"User already exists");
+    public UserModel register(UserModel request) {
+        List<User> users = userRepository.findByUsername(request.username);
+        validateUser(request);
+        if(!users.isEmpty()) printError(HttpStatus.BAD_REQUEST,"User already exists");
 
-userRepository.save(new User(request.username,request.password) );
+        userRepository.save(new User(request.username,request.password) );
 
-return request;
-}
+        return request;
+    }
 
-public boolean login(UserModel request) {
-List<User> users = userRepository.findByUsername(request.username);
-validateUser(request);
-if(users.isEmpty()) printError(HttpStatus.BAD_REQUEST,"User is not  registered  ");
+    public boolean login(UserModel request) {
+        List<User> users = userRepository.findByUsername(request.username);
+        validateUser(request);
+        if(users.isEmpty()) printError(HttpStatus.BAD_REQUEST,"User is not  registered  ");
 
-List<User> users2 = userRepository.findByUsernameAndPassword(request.username,request.password);
-if(users2.isEmpty()) {
-printError(HttpStatus.BAD_REQUEST,"Wrong password");
-          return false;
-}
-return true;
-}
+        List<User> users2 = userRepository.findByUsernameAndPassword(request.username,request.password);
+        if(users2.isEmpty()) {
+            printError(HttpStatus.BAD_REQUEST,"Wrong password");
+            return false;
+        }
+        return true;
+    }
 
-public  RequestModel joinCourse(RequestModel<String> requestModel) {
+    public  RequestModel joinCourse(RequestModel<String> requestModel) {
 //		if (!login(requestModel.userModel)){
 //			printError(HttpStatus.NO_CONTENT,"Validation failed");
 //		}
-		User user = userRepository.findByUsername(requestModel.user).get(0);
-Course course = courseRepository.findByName(requestModel.request).get(0);
-if(user.getCourses().contains(course)) {
-printError(HttpStatus.BAD_REQUEST,"User already registered in this course");
-}
-user.addCourse(course);
-course.addUser(user);
-courseRepository.save(course);
-userRepository.save(user);
-return requestModel;
-}
+        User user = userRepository.findByUsername(requestModel.user).get(0);
+        Course course = courseRepository.findByName(requestModel.request).get(0);
+        if(user.getCourses().contains(course)) {
+            printError(HttpStatus.BAD_REQUEST,"User already registered in this course");
+        }
+        user.addCourse(course);
+        course.addUser(user);
+        courseRepository.save(course);
+        userRepository.save(user);
+        return requestModel;
+    }
 
-public RequestModel dropCourse(RequestModel<String> requestModel) {
+    public RequestModel dropCourse(RequestModel<String> requestModel) {
 //		if (!login(requestModel.userModel)){
 //			printError(HttpStatus.NO_CONTENT,"Validation failed");
 //		}
-		User user = userRepository.findByUsername(requestModel.user).get(0);
+        User user = userRepository.findByUsername(requestModel.user).get(0);
 
-Course course = courseRepository.findByName(requestModel.request).get(0);
+        Course course = courseRepository.findByName(requestModel.request).get(0);
 
-user.removeCourse(course);
-course.removeUser(user);
-courseRepository.save(course);
-userRepository.save(user);
-return requestModel;
-}
+        user.removeCourse(course);
+        course.removeUser(user);
+        courseRepository.save(course);
+        userRepository.save(user);
+        return requestModel;
+    }
 
-public List<CourseModel> retrieveCourses() {
-return courseRepository.findAll().stream().map(e -> e.getCourseModel()).toList();
-}
+    public List<CourseModel> retrieveCourses() {
+        return courseRepository.findAll().stream().map(e -> e.getCourseModel()).toList();
+    }
 
-public FeedbackModel leaveFeedback(RequestModel<CourseFeedbackModel> requestModel) {
+    public FeedbackModel leaveFeedback(RequestModel<CourseFeedbackModel> requestModel) {
 //		if (!login(requestModel.userModel)){
 //			printError(HttpStatus.NO_CONTENT,"Validation failed");
 //		}
-		User user = userRepository.findByUsername(requestModel.user).get(0);
-Course course = courseRepository.findByName(requestModel.request.course).get(0);
-if(!course.getUsers().contains(user)) {
-printError(HttpStatus.BAD_REQUEST,"User not registered in the Course");
-}
+        User user = userRepository.findByUsername(requestModel.user).get(0);
+        Course course = courseRepository.findByName(requestModel.request.course).get(0);
+        if(!course.getUsers().contains(user)) {
+            printError(HttpStatus.BAD_REQUEST,"User not registered in the Course");
+        }
 
 
-Feedback feedback = new Feedback(requestModel.request.feedbackModel.feedbackDescription,requestModel.request.feedbackModel.rating);
-feedbackRepository.save(feedback);
-course.addFeedback(feedback);
-courseRepository.save(course);
+        Feedback feedback = new Feedback(requestModel.request.feedbackModel.feedbackDescription,requestModel.request.feedbackModel.rating);
+        feedbackRepository.save(feedback);
+        course.addFeedback(feedback);
+        courseRepository.save(course);
 
-CourseFeedback courseFeedback = new CourseFeedback(course,feedback);
-if(courseFeedbackRepository.findByCourseAndFeedback(course, feedback).size()>0) {
-printError(HttpStatus.BAD_REQUEST,"You can not leave more than 1 feedback in the Course");
-}
-courseFeedbackRepository.save(courseFeedback);
+        CourseFeedback courseFeedback = new CourseFeedback(course,feedback);
+        if(courseFeedbackRepository.findByCourseAndFeedback(course, feedback).size()>0) {
+            printError(HttpStatus.BAD_REQUEST,"You can not leave more than 1 feedback in the Course");
+        }
+        courseFeedbackRepository.save(courseFeedback);
 
 //
-return requestModel.request.feedbackModel;
+        return requestModel.request.feedbackModel;
 
-}
+    }
 
-	public CourseFeedbackRating viewFeedbacks(String courseName) {
-		Course course = courseRepository.findByName(courseName).get(0);
-		int count = 0;
-		for(Feedback feedback: course.getListFeedbacks()) {
-			count+=feedback.getRating();
-		}
-		double avg = (double)count / (double) course.getListFeedbacks().size();
-		
-	List<FeedbackModel> list =	course.getListFeedbacks().stream().sorted().map(e -> e.getFeedbackModel()).toList();
-		
-		 
-		 
-		 
-		 return new CourseFeedbackRating(list,avg);
-				
-	}
-	
-	public List<CourseModel> topCourses(int rate){
-		List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().sorted().limit(rate).toList(); 
-		if(list.isEmpty()){
-			printError(HttpStatus.BAD_REQUEST,"Empty List");
-		}
-		return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
-	}
+    public CourseFeedbackRating viewFeedbacks(String courseName) {
+        Course course = courseRepository.findByName(courseName).get(0);
+        int count = 0;
+        for(Feedback feedback: course.getListFeedbacks()) {
+            count+=feedback.getRating();
+        }
+        double avg = (double)count / (double) course.getListFeedbacks().size();
+
+        List<FeedbackModel> list = course.getListFeedbacks().stream().sorted().map(e -> e.getFeedbackModel()).toList();
 
 
-	
-	@Scheduled(fixedDelay = 1000*60*5)
-	public void deleteFeedback() {
-		for(Feedback feedback : feedbackRepository.findAll()) {
-			if(feedback.getDate().plusYears(1).isAfter(LocalDateTime.now())) {
-				CourseFeedback courseFeedback = courseFeedbackRepository.findByFeedback(feedback).get(0);
-				courseFeedbackRepository.delete(courseFeedback);
-				feedbackRepository.delete(feedback);
-			}
-		}
-	}
-	
-	
-	public void printError(HttpStatus httpStatus,String str) {
-		System.err.println(str);
-		throw new ResponseStatusException(httpStatus, str);
-	}
-	
-	public void validateUser(UserModel request) {
-		if(request.username.length()<=5) printError(HttpStatus.BAD_REQUEST,"Username should be with more than 5 characters ");
-		if(request.username.length()>=30) printError(HttpStatus.BAD_REQUEST,"Username should be with less than 30 characters ");	
-		if(request.password.length()<=5) printError(HttpStatus.BAD_REQUEST,"Password should be with more than 5 characters ");
-		if(request.password.length()>=30) printError(HttpStatus.BAD_REQUEST,"Password should be with less than 30 characters ");
-	}
 
-	public List<CourseModel> getUserCourses(String name) {
 
-		User user = userRepository.findByUsername(name).get(0);
+        return new CourseFeedbackRating(list,avg);
 
-		return user.getCourses().stream().map(e -> e.getCourseModel()).toList();
+    }
 
-	}
+    public List<CourseModel> topCourses(int rate){
+        List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().sorted().limit(rate).toList();
+
+        return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
+    }
+
+    public List<CourseModel> listAllCourses(){
+        List<CourseFeedback> list = courseFeedbackRepository.findAll().stream().toList();
+        if(list.isEmpty()) {
+            printError(HttpStatus.NO_CONTENT,"List is empty");
+        }
+        return list.stream().map(e -> e.getCourse()).toList().stream().map(e -> e.getCourseModel()).toList();
+    }
+
+// @Scheduled(fixedDelay = 1000*60*5)
+// public void deleteFeedback() {
+// for(Feedback feedback : feedbackRepository.findAll()) {
+// if(feedback.getDate().plusYears(1).isAfter(LocalDateTime.now())) {
+// CourseFeedback courseFeedback = courseFeedbackRepository.findByFeedback(feedback).get(0);
+// courseFeedbackRepository.delete(courseFeedback);
+// feedbackRepository.delete(feedback);
+// }
+// }
+// }
+
+
+    public void printError(HttpStatus httpStatus,String str) {
+        System.err.println(str);
+        throw new ResponseStatusException(httpStatus, str);
+    }
+
+    public void validateUser(UserModel request) {
+        if(request.username.length()<=5) printError(HttpStatus.BAD_REQUEST,"Username should be with more than 5 characters ");
+        if(request.username.length()>=30) printError(HttpStatus.BAD_REQUEST,"Username should be with less than 30 characters ");
+        if(request.password.length()<=5) printError(HttpStatus.BAD_REQUEST,"Password should be with more than 5 characters ");
+        if(request.password.length()>=30) printError(HttpStatus.BAD_REQUEST,"Password should be with less than 30 characters ");
+    }
+
+    public List<CourseModel> getUserCourses(String name) {
+
+        User user = userRepository.findByUsername(name).get(0);
+
+        return user.getCourses().stream().map(e -> e.getCourseModel()).toList();
+
+    }
 }

@@ -10,5 +10,13 @@ public class CourseFeedbackRating {
 		this.feedbacks = feedbackModel;
 		this.averageRating = averageRating;
 	}
+
+	public List<FeedbackModel> getFeedbacks() {
+		return feedbacks;
+	}
+
+	public double getAverageRating() {
+		return averageRating;
+	}
 	
 }
